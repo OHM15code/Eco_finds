@@ -84,10 +84,10 @@ if (savedTheme) {
 
 // 3. Product Feed Data
 const products = [
-  { title: 'Wireless Headphones', price: '$59.99', image: '', category: 'Electronics' },
-  { title: 'Denim Jacket',        price: '$42.00', image: '', category: 'Clothing' },
-  { title: 'Sci-Fi Novel',        price: '$15.50', image: '', category: 'Books' },
-  { title: 'Coffee Maker',        price: '$89.99', image: '', category: 'Home' },
+  { title: 'Wireless Headphones', price: '$59.99', image: '', category: 'Electronics', desc: 'High-quality wireless headphones with noise cancellation.' },
+  { title: 'Denim Jacket',        price: '$42.00', image: '', category: 'Clothing', desc: 'Classic blue denim jacket, unisex fit.' },
+  { title: 'Sci-Fi Novel',        price: '$15.50', image: '', category: 'Books', desc: 'A thrilling science fiction adventure story.' },
+  { title: 'Coffee Maker',        price: '$89.99', image: '', category: 'Home', desc: 'Brew the perfect coffee at home with this compact machine.' },
 ];
 
 let filters = { search: '', category: 'All' };
@@ -136,6 +136,7 @@ function renderProducts() {
       card.dataset.price    = p.price;
       card.dataset.image    = p.image;
       card.dataset.category = p.category;
+      card.dataset.desc     = p.desc || '';
       card.innerHTML = `
         ${p.image ? `<img src="${p.image}" alt="${p.title}">` : ''}
         <div class="info">
@@ -177,6 +178,7 @@ const titleInput  = document.getElementById('titleInput');
 const priceInput  = document.getElementById('priceInput');
 const imageInput  = document.getElementById('imageInput');
 const categoryInput = document.getElementById('categoryInput');
+const descInput   = document.getElementById('descInput');
 const fileDrop = document.querySelector('.file-drop');
 
 // Open modal
@@ -238,18 +240,20 @@ saveBtn.addEventListener('click', () => {
   const price = priceInput.value.trim();
   const file  = imageInput.files[0];
   const cat   = categoryInput.value;
-  if (!title || !price || !file || !cat) {
+  const desc  = descInput.value.trim();
+
+  if (!title || !price || !file || !cat || !desc) {
     return alert('All fields are required.');
   }
   if (isNaN(price) || Number(price) < 0) {
     return alert('Price must be a non-negative number.');
   }
 
-  const newProd = { title, price: `$${Number(price).toFixed(2)}`, image: '' };
+  const newProd = { title, price: `$${Number(price).toFixed(2)}`, image: '', category: cat, desc };
   const reader = new FileReader();
   reader.onload = () => {
     newProd.image = reader.result;
-    products.unshift({ ...newProd, category: cat });
+    products.unshift(newProd);
     modal.classList.remove('open');
     resetModal();
     showToast('Product added successfully!');
@@ -264,6 +268,7 @@ function resetModal() {
   priceInput.value = '';
   imageInput.value = '';
   categoryInput.value = '';
+  descInput.value = '';
   const preview = fileDrop.querySelector('.preview');
   if (preview) preview.remove();
 }
@@ -274,6 +279,7 @@ const quickImage    = document.getElementById('quickImage');
 const quickTitle    = document.getElementById('quickTitle');
 const quickPrice    = document.getElementById('quickPrice');
 const quickCategory = document.getElementById('quickCategory');
+const quickDesc     = document.getElementById('quickDesc');
 const closeQV       = quickModal.querySelector('.close-quick-view');
 
 // Delegate quick-view clicks
@@ -285,6 +291,7 @@ productGrid.addEventListener('click', e => {
     quickTitle.textContent     = card.dataset.title;
     quickPrice.textContent     = card.dataset.price;
     quickCategory.textContent  = `Category: ${card.dataset.category}`;
+    quickDesc.textContent      = card.dataset.desc || '';
     quickModal.classList.add('show');
     quickModal.setAttribute('aria-hidden', 'false');
   }

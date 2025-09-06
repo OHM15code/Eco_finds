@@ -25,6 +25,7 @@
 
     <div class="nav-end">
       <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      <a href="cart.html" class="cart-link" aria-label="Go to cart">🛒</a>
       <img src="https://i.pravatar.cc/40" alt="Profile" class="profile-logo" />
     </div>
   </nav>
@@ -68,6 +69,9 @@
         <option>Home</option>
       </select>
 
+      <label for="descInput">Description</label>
+      <textarea id="descInput" rows="3" placeholder="Write a short description..."></textarea>
+
       <div class="modal-actions">
         <button class="cancel" id="cancelBtn">Cancel</button>
         <button class="save" id="saveBtn">Save</button>
@@ -83,6 +87,7 @@
       <h2 id="quickTitle"></h2>
       <p id="quickPrice"></p>
       <p id="quickCategory"></p>
+      <p id="quickDesc"></p>
     </div>
   </div>
 
