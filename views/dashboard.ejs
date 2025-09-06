@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/products/new">Sell Item</a></li>
+          <li><a href="/cart">Cart</a></li>
+          <li><a href="/dashboard" class="active">Dashboard</a></li>
+          <li><a href="/purchases">Purchase History</a></li>
+          <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="dashboard-header">
+      <h1>Welcome, <%= user.username %>!</h1>
+    </div>
+
+    <section class="dashboard-section">
+      <h2>Your Profile</h2>
+      <div class="profile-info">
+        <div class="form-group">
+          <label>Username</label>
+          <p><%= user.username %></p>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <p><%= user.email %></p>
+        </div>
+        <a href="/profile/edit" class="btn">Edit Profile</a>
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="section-header">
+        <h2>Your Listings</h2>
+        <a href="/products/new" class="btn">+ Add New Product</a>
+      </div>
+      
+      <% if (products && products.length > 0) { %>
+        <div class="products-grid">
+          <% products.forEach(product => { %>
+            <div class="product-card">
+              <div class="product-img">
+                <% if (product.image_url) { %>
+                  <img src="<%= product.image_url %>" alt="<%= product.title %>">
+                <% } else { %>
+                  <div class="placeholder-img">No Image</div>
+                <% } %>
+              </div>
+              <div class="product-info">
+                <h3 class="product-title"><%= product.title %></h3>
+                <p class="product-price">$<%= product.price %></p>
+                <p class="product-category"><%= product.category_name %></p>
+                <div class="product-actions">
+                  <a href="/products/<%= product.id %>" class="btn">View</a>
+                  <a href="/products/<%= product.id %>/edit" class="btn">Edit</a>
+                  <form action="/products/<%= product.id %>/delete" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>You haven't listed any products yet.</p>
+      <% } %>
+    </section>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

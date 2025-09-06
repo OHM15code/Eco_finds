@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/login" class="active">Login</a></li>
+          <li><a href="/register">Register</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="auth-container">
+      <h2>Login to EcoFinds</h2>
+      <% if (typeof error !== 'undefined') { %>
+        <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+      <form action="/auth/login" method="POST">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-block">Login</button>
+      </form>
+      <div class="auth-links">
+        <p>Don't have an account? <a href="/register">Register</a></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= product.title %> - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/about">About</a></li>
+          <% if (isAuthenticated) { %>
+            <li><a href="/products/new">Sell Item</a></li>
+            <li><a href="/cart">Cart</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+          <% } else { %>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="product-detail">
+      <div class="product-detail-img">
+        <% if (product.image_url) { %>
+          <img src="<%= product.image_url %>" alt="<%= product.title %>">
+        <% } else { %>
+          <div class="placeholder-img">No Image</div>
+        <% } %>
+      </div>
+      
+      <div class="product-detail-info">
+        <h2><%= product.title %></h2>
+        <p class="product-detail-price">$<%= product.price %></p>
+        <p class="product-category">Category: <%= product.category_name %></p>
+        <div class="product-detail-description">
+          <%= product.description %>
+        </div>
+        
+        <% if (isAuthenticated && product.seller_id !== userId) { %>
+          <button onclick="addToCart('<%= product.id %>')" class="btn btn-block">Add to Cart</button>
+        <% } else if (!isAuthenticated) { %>
+          <a href="/login" class="btn btn-block">Login to Purchase</a>
+        <% } else if (product.seller_id === userId) { %>
+          <div class="product-actions">
+            <a href="/products/<%= product.id %>/edit" class="btn">Edit</a>
+            <form action="/products/<%= product.id %>/delete" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

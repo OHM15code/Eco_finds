@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Details - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/products/new">Sell Item</a></li>
+          <li><a href="/cart">Cart</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="purchase-detail-header">
+      <h1>Purchase Details</h1>
+      <a href="/purchases" class="btn btn-secondary">Back to Purchase History</a>
+    </div>
+    
+    <div class="purchase-info">
+      <div class="purchase-summary">
+        <h2>Order #<%= purchase.id %></h2>
+        <p><strong>Date:</strong> <%= new Date(purchase.created_at).toLocaleDateString() %></p>
+        <p><strong>Total Amount:</strong> $<%= purchase.total_amount.toFixed(2) %></p>
+      </div>
+      
+      <div class="purchase-items">
+        <h3>Items Purchased</h3>
+        
+        <% if (items && items.length > 0) { %>
+          <div class="purchase-items-list">
+            <% items.forEach(item => { %>
+              <div class="purchase-item">
+                <div class="purchase-item-image">
+                  <% if (item.image_url) { %>
+                    <img src="<%= item.image_url %>" alt="<%= item.title %>">
+                  <% } else { %>
+                    <div class="placeholder-img">No Image</div>
+                  <% } %>
+                </div>
+                
+                <div class="purchase-item-info">
+                  <h4><a href="/products/<%= item.product_id %>"><%= item.title %></a></h4>
+                  <p><strong>Price:</strong> $<%= item.price.toFixed(2) %></p>
+                  <p><strong>Quantity:</strong> <%= item.quantity %></p>
+                  <p><strong>Seller:</strong> <%= item.seller_name %></p>
+                </div>
+                
+                <div class="purchase-item-total">
+                  <p><strong>Subtotal:</strong> $<%= (item.price * item.quantity).toFixed(2) %></p>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p>No items found for this purchase.</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

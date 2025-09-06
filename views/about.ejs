@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/about" class="active">About</a></li>
+          <% if (isAuthenticated) { %>
+            <li><a href="/products/new">Sell Item</a></li>
+            <li><a href="/cart">Cart</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+          <% } else { %>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="about-section">
+      <h1 class="page-title">About EcoFinds</h1>
+      
+      <div class="about-content">
+        <div class="about-image">
+          <div class="placeholder-image">EcoFinds</div>
+        </div>
+        
+        <div class="about-text">
+          <h2>Our Mission</h2>
+          <p>EcoFinds is dedicated to creating a sustainable future by providing a platform for buying and selling second-hand items. We believe in reducing waste, promoting reuse, and making sustainable choices accessible to everyone.</p>
+          
+          <h2>Our Vision</h2>
+          <p>We envision a world where second-hand shopping is the first choice for consumers, reducing the environmental impact of manufacturing new products and keeping valuable items out of landfills.</p>
+          
+          <h2>How It Works</h2>
+          <p>EcoFinds connects buyers and sellers in a simple, secure marketplace:</p>
+          <ol>
+            <li><strong>List</strong> - Sellers can easily list their pre-loved items with photos and descriptions</li>
+            <li><strong>Browse</strong> - Buyers can search for exactly what they need</li>
+            <li><strong>Purchase</strong> - Our secure platform handles the transaction</li>
+            <li><strong>Reuse</strong> - Items find new homes instead of ending up in landfills</li>
+          </ol>
+          
+          <h2>Join Our Community</h2>
+          <p>Whether you're looking to declutter your home, find unique items, or simply make more sustainable choices, EcoFinds welcomes you to our growing community of environmentally conscious consumers.</p>
+          
+          <div class="cta-button">
+            <% if (!isAuthenticated) { %>
+              <a href="/register" class="btn btn-primary">Join EcoFinds Today</a>
+            <% } else { %>
+              <a href="/products" class="btn btn-primary">Start Shopping</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Eco<span>Finds</span></div>
+        <p>&copy; <%= new Date().getFullYear() %> EcoFinds. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
