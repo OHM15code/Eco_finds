@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/about">About</a></li>
+          <% if (isAuthenticated) { %>
+            <li><a href="/products/new">Sell Item</a></li>
+            <li><a href="/cart" class="active">Cart</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
+          <% } else { %>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Your Shopping Cart</h1>
+    
+    <% if (cartItems && cartItems.length > 0) { %>
+      <div class="cart-items">
+        <% cartItems.forEach(item => { %>
+          <div class="cart-item" data-item-id="<%= item.id %>">
+            <div class="cart-item-image">
+              <% if (item.image_url) { %>
+                <img src="<%= item.image_url %>" alt="<%= item.title %>">
+              <% } else { %>
+                <div class="placeholder-img">No Image</div>
+              <% } %>
+            </div>
+            
+            <div class="cart-item-info">
+              <h3><a href="/products/<%= item.product_id %>"><%= item.title %></a></h3>
+              <p class="cart-item-price">$<%= item.price %> each</p>
+              <p class="cart-item-seller">Sold by: <%= item.seller_name %></p>
+            </div>
+            
+            <div class="cart-item-actions">
+              <form action="/cart/update" method="POST" class="quantity-form">
+                <input type="hidden" name="cartId" value="<%= item.id %>">
+                <div class="quantity-control" data-item-id="<%= item.id %>">
+                  <label for="quantity-<%= item.id %>">Quantity:</label>
+                  <input type="number" id="quantity-<%= item.id %>" name="quantity" value="<%= item.quantity %>" min="1" max="10">
+                  <button type="submit" class="btn btn-sm">Update</button>
+                </div>
+              </form>
+              
+              <form action="/cart/remove" method="POST">
+                <input type="hidden" name="cartId" value="<%= item.id %>">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="removeFromCart('<%= item.id %>')">Remove</button>
+              </form>
+            </div>
+            
+            <div class="cart-item-subtotal">
+              <p>Subtotal: $<%= (item.price * item.quantity).toFixed(2) %></p>
+            </div>
+          </div>
+        <% }); %>
+        
+        <div class="cart-summary">
+          <div class="cart-total">
+            <h3>Total: $<%= cartTotal.toFixed(2) %></h3>
+          </div>
+          
+          <div class="cart-actions">
+            <form action="/cart/clear" method="POST">
+              <button type="submit" class="btn btn-danger" onclick="clearCart()">Clear Cart</button>
+            </form>
+            
+            <form action="/checkout" method="POST">
+              <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="empty-cart">
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added any items to your cart yet.</p>
+        <a href="/products" class="btn btn-primary">Browse Products</a>
+      </div>
+    <% } %>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

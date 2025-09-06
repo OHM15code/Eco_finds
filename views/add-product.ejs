@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Product - EcoFinds</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Eco<span>Finds</span></div>
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Browse</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/products/new" class="active">Sell Item</a></li>
+          <li><a href="/cart">Cart</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/auth/logout">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="auth-container">
+      <h2>Add New Product</h2>
+      <% if (typeof error !== 'undefined') { %>
+        <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+      <form action="/products/create" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Product Title</label>
+          <input type="text" id="title" name="title" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" name="category_id" class="form-control" required>
+            <option value="">Select a category</option>
+            <% categories.forEach(category => { %>
+              <option value="<%= category.id %>"><%= category.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="price">Price ($)</label>
+          <input type="number" id="price" name="price" step="0.01" min="0.01" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" class="form-control" rows="5" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="image">Product Image</label>
+          <input type="file" id="image" name="image" class="form-control">
+        </div>
+        
+        <button type="submit" class="btn btn-block">Add Product</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
