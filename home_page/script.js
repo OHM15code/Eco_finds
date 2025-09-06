@@ -59,49 +59,49 @@ let products = [
   {
     title: "Eco Bottle",
     price: "$12",
-    image: "https://images.unsplash.com/photo-1526401485004-2fda9f6d93d8?auto=format&fit=crop&w=600&q=80",
+    image: "templates/eco_tote_bottle.jpg",
     category: "Home",
     desc: "Reusable eco-friendly stainless steel bottle."
   },
   {
     title: "Organic T-Shirt",
     price: "$25",
-    image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=600&q=80",
+    image: "templates/tshirt.jpg",
     category: "Clothing",
     desc: "Soft organic cotton, comfortable and breathable."
   },
   {
     title: "Solar Charger",
     price: "$40",
-    image: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=600&q=80",
+    image: "templates/solar_charger.jpg",
     category: "Electronics",
     desc: "Compact eco solar charger for your devices."
   },
   {
     title: "Bamboo Toothbrush",
     price: "$5",
-    image: "https://images.unsplash.com/photo-1606813902773-19aab4e3d7c1?auto=format&fit=crop&w=600&q=80",
+    image: "templates/toothbrush.jpg",
     category: "Home",
     desc: "Biodegradable bamboo toothbrush with soft bristles."
   },
   {
     title: "Eco Tote Bag",
     price: "$15",
-    image: "https://images.unsplash.com/photo-1585386959984-a4155223f8d3?auto=format&fit=crop&w=600&q=80",
+    image: "templates/organic_bag.jpg",
     category: "Clothing",
     desc: "Reusable eco-friendly tote bag – replace plastic bags forever."
   },
   {
     title: "Recycled Notebook",
     price: "$8",
-    image: "https://images.unsplash.com/photo-1600250398539-0a6f6c1db73b?auto=format&fit=crop&w=600&q=80",
+    image: "templates/a_recycled_copy.jpg",
     category: "Books",
     desc: "Notebook made from 100% recycled paper."
   },
   {
     title: "Glass Food Containers",
     price: "$30",
-    image: "https://images.unsplash.com/photo-1590080876476-bd0a5a9b1f5d?auto=format&fit=crop&w=600&q=80",
+    image: "templates/glass_jar.jpg",
     category: "Home",
     desc: "Set of reusable glass food containers with bamboo lids."
   }
