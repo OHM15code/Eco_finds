@@ -96,14 +96,6 @@ let firstLoad = true;
 const filterBar   = document.getElementById('filterBar');
 const productGrid = document.getElementById('productGrid');
 const searchInput = document.getElementById('searchInput');
-const addBtn      = document.getElementById('addBtn');
-const modal       = document.getElementById('modal');
-const cancelBtn   = document.getElementById('cancelBtn');
-const saveBtn     = document.getElementById('saveBtn');
-const titleInput  = document.getElementById('titleInput');
-const priceInput  = document.getElementById('priceInput');
-const imageInput  = document.getElementById('imageInput');
-const categoryInput = document.getElementById('categoryInput');
 
 // Render category filters
 function renderFilters() {
@@ -176,18 +168,71 @@ searchInput.addEventListener('input', e => {
   renderProducts();
 });
 
-addBtn.addEventListener('click', () => modal.classList.add('open'));
-cancelBtn.addEventListener('click', () => modal.classList.remove('open'));
-
+// 4. Add Product Modal (Improved)
+const addBtn      = document.getElementById('addBtn');
+const modal       = document.getElementById('modal');
+const cancelBtn   = document.getElementById('cancelBtn');
+const saveBtn     = document.getElementById('saveBtn');
+const titleInput  = document.getElementById('titleInput');
+const priceInput  = document.getElementById('priceInput');
+const imageInput  = document.getElementById('imageInput');
+const categoryInput = document.getElementById('categoryInput');
 const fileDrop = document.querySelector('.file-drop');
-fileDrop.addEventListener('dragover', e => { e.preventDefault(); fileDrop.classList.add('dragover'); });
+
+// Open modal
+addBtn.addEventListener('click', () => {
+  modal.classList.add('open');
+  titleInput.focus();
+});
+
+// Cancel
+cancelBtn.addEventListener('click', () => {
+  modal.classList.remove('open');
+  resetModal();
+});
+
+// Close with Esc
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && modal.classList.contains('open')) {
+    modal.classList.remove('open');
+    resetModal();
+  }
+});
+
+// File drag-drop
+fileDrop.addEventListener('dragover', e => {
+  e.preventDefault();
+  fileDrop.classList.add('dragover');
+});
 fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
 fileDrop.addEventListener('drop', e => {
   e.preventDefault();
   imageInput.files = e.dataTransfer.files;
   fileDrop.classList.remove('dragover');
+  previewImage();
 });
 
+// File preview
+imageInput.addEventListener('change', previewImage);
+
+function previewImage() {
+  const file = imageInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      let preview = fileDrop.querySelector('.preview');
+      if (!preview) {
+        preview = document.createElement('img');
+        preview.className = 'preview';
+        fileDrop.appendChild(preview);
+      }
+      preview.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Save product
 saveBtn.addEventListener('click', () => {
   const title = titleInput.value.trim();
   const price = priceInput.value.trim();
@@ -206,14 +251,24 @@ saveBtn.addEventListener('click', () => {
     newProd.image = reader.result;
     products.unshift({ ...newProd, category: cat });
     modal.classList.remove('open');
-    titleInput.value = ''; priceInput.value = ''; imageInput.value = ''; categoryInput.value = '';
+    resetModal();
     showToast('Product added successfully!');
     loadFeed();
   };
   reader.readAsDataURL(file);
 });
 
-// Quick-View Modal Elements
+// Reset modal
+function resetModal() {
+  titleInput.value = '';
+  priceInput.value = '';
+  imageInput.value = '';
+  categoryInput.value = '';
+  const preview = fileDrop.querySelector('.preview');
+  if (preview) preview.remove();
+}
+
+// 5. Quick-View Modal
 const quickModal    = document.getElementById('quickViewModal');
 const quickImage    = document.getElementById('quickImage');
 const quickTitle    = document.getElementById('quickTitle');
@@ -247,7 +302,7 @@ quickModal.addEventListener('click', e => {
   }
 });
 
-// Toast helper
+// 6. Toast helper
 function showToast(msg) {
   const t = document.createElement('div');
   t.className = 'toast';
@@ -260,4 +315,5 @@ function showToast(msg) {
   }, 2000);
 }
 
+// Start feed
 loadFeed();
